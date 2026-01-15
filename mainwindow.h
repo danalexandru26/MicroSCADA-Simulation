@@ -25,14 +25,14 @@ public:
 private:
     void drawBasicMicroScada();
     void simulationStep();
-    void assignPowerNodes(QList<PowerNode*>& nodeList, QLCDNumber* first, QLCDNumber* second);
+    void assignPowerNodes(QList<PowerNode*>& nodeList, QLCDNumber* voltage, QLCDNumber* power, int percentage);
 
 private:
     Ui::MainWindow *ui;
 
     PowerNode* parentLineA;
     PowerNode* parentLineB;
-    QList<PowerNode*> powerDistribution_A{};
-    QList<PowerNode*> powerDistribution_B{};
+    QList<PowerNode*> powerDistributionA{};
+    QList<PowerNode*> powerDistributionB{};
 };
 #endif // MAINWINDOW_H

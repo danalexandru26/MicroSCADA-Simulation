@@ -32,3 +32,15 @@ void PowerNode::setNodeVoltage(int value){
 void PowerNode::setNodeTotalPower(int value){
     totalPower->display(value);
 }
+
+int PowerNode::getVoltage(){
+    return voltage->intValue();
+}
+
+double PowerNode::getTotalPower(){
+    return totalPower->value();
+}
+
+double PowerNode::powerLoad(){
+    return static_cast<double>(powerPercentage);
+}

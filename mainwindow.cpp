@@ -17,6 +17,49 @@ MainWindow::MainWindow(QWidget *parent)
     QLCDNumber* parentVoltageB = qobject_cast<QLCDNumber*>(ui->trafo2V);
     QLCDNumber* parentPowerB = qobject_cast<QLCDNumber*>(ui->trafo2P);
     parentLineB = new PowerNode(parentVoltageB, parentPowerB, this);
+
+    auto capacitorBank1V = qobject_cast<QLCDNumber*>(ui->capBankV1);
+    auto capacitorBank1P = qobject_cast<QLCDNumber*>(ui->capBankP1);
+    assignPowerNodes(powerDistributionA, capacitorBank1V, capacitorBank1P, 10);
+
+    auto ext1V = qobject_cast<QLCDNumber*>(ui->extV);
+    auto ext1P = qobject_cast<QLCDNumber*>(ui->extP);
+    assignPowerNodes(powerDistributionA, ext1V, ext1P, 20);
+
+    auto ext2V = qobject_cast<QLCDNumber*>(ui->ext2V);
+    auto ext2P = qobject_cast<QLCDNumber*>(ui->ext2P);
+    assignPowerNodes(powerDistributionA, ext2V, ext2P, 15);
+
+    auto ext3V = qobject_cast<QLCDNumber*>(ui->ext3V);
+    auto ext3P = qobject_cast<QLCDNumber*>(ui->ext3P);
+    assignPowerNodes(powerDistributionA, ext3V, ext3P, 15);
+
+    auto condV = qobject_cast<QLCDNumber*>(ui->condV);
+    auto condP = qobject_cast<QLCDNumber*>(ui->condP);
+    assignPowerNodes(powerDistributionA, condV, condP, 20);
+
+    auto lightV = qobject_cast<QLCDNumber*>(ui->lightV);
+    auto lightP = qobject_cast<QLCDNumber*>(ui->lightP);
+    assignPowerNodes(powerDistributionA, lightV, lightP, 20);
+
+    auto capBank2V = qobject_cast<QLCDNumber*>(ui->capBank2V);
+    auto capBank2P = qobject_cast<QLCDNumber*>(ui->capBank2P);
+    assignPowerNodes(powerDistributionB, capBank2V, capBank2P, 8);
+
+    auto line1V = qobject_cast<QLCDNumber*>(ui->line1V);
+    auto line1P = qobject_cast<QLCDNumber*>(ui->line1P);
+    assignPowerNodes(powerDistributionB, line1V, line1P, 12);
+
+    auto line2V = qobject_cast<QLCDNumber*>(ui->line2V);
+    auto line2P = qobject_cast<QLCDNumber*>(ui->line2P);
+    assignPowerNodes(powerDistributionB, line2V, line2P, 10);
+
+    auto carLineV = qobject_cast<QLCDNumber*>(ui->carLineV);
+    auto carLineP = qobject_cast<QLCDNumber*>(ui->carLineP);
+    assignPowerNodes(powerDistributionB, carLineV, carLineP, 30);
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -46,9 +89,23 @@ void MainWindow::simulationStep(){
     parentLineB->setNodeVoltage(QRandomGenerator::global()->bounded(210, 240));
     parentLineB->setNodeTotalPower(QRandomGenerator::global()->bounded(600, 1300));
 
+    for(auto& node : powerDistributionA){
+        auto nVariation = QRandomGenerator::global()->bounded(-10, 15);
+        node->setNodeVoltage(parentLineA->getVoltage() + nVariation);
+
+        node->setNodeTotalPower(parentLineA->getTotalPower() * (node->powerLoad()/100));
+    }
+
+    for(auto& node : powerDistributionB){
+        auto nVariation = QRandomGenerator::global()->bounded(-10, 15);
+        node->setNodeVoltage(parentLineA->getVoltage() + nVariation);
+
+        node->setNodeTotalPower(parentLineA->getTotalPower() * (node->powerLoad()/100));
+    }
 }
 
-void MainWindow::assignPowerNodes(QList<PowerNode*>& nodeList, QLCDNumber* first, QLCDNumber* second){
-
+void MainWindow::assignPowerNodes(QList<PowerNode*>& nodeList, QLCDNumber* voltage, QLCDNumber* power, int percentage = 1){
+    PowerNode* node = new PowerNode(voltage, power, percentage, this);
+    nodeList.push_back(node);
 }
 

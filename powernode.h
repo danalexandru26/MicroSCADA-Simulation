@@ -17,6 +17,9 @@ public:
     void setNodeVoltage(int value);
     void setNodeTotalPower(int value);
 
+    int getVoltage();
+    double getTotalPower();
+    double powerLoad();
 
 private:
     QLCDNumber* voltage;
