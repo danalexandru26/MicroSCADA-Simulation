@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-QT += widgets svg svgwidgets
+QT += core widgets svg svgwidgets
 
 CONFIG += c++17
 
@@ -19,7 +19,8 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     powernode.h \
-    scalablesvgwidget.h
+    scalablesvgwidget.h \
+
 
 FORMS += \
     mainwindow.ui
