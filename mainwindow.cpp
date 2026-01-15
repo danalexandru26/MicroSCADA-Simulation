@@ -58,8 +58,19 @@ MainWindow::MainWindow(QWidget *parent)
     auto carLineP = qobject_cast<QLCDNumber*>(ui->carLineP);
     assignPowerNodes(powerDistributionB, carLineV, carLineP, 30);
 
+    auto vitals1V = qobject_cast<QLCDNumber*>(ui->vitals1V);
+    auto vitals1P = qobject_cast<QLCDNumber*>(ui->vitals1P);
+    assignPowerNodes(powerDistributionB, vitals1V, vitals1P, 15);
 
 
+    auto vitals2V = qobject_cast<QLCDNumber*>(ui->vitals2V);
+    auto vitals2P = qobject_cast<QLCDNumber*>(ui->vitals2P);
+    assignPowerNodes(powerDistributionB, vitals2V, vitals2P, 15);
+
+
+    auto vitals3V = qobject_cast<QLCDNumber*>(ui->vitals3V);
+    auto vitals3P = qobject_cast<QLCDNumber*>(ui->vitals3P);
+    assignPowerNodes(powerDistributionB, vitals3V, vitals3P, 10);
 }
 
 MainWindow::~MainWindow()
@@ -78,7 +89,7 @@ void MainWindow::drawBasicMicroScada(){
 
     QTimer* stepTimer100ms = new QTimer(this);
     connect(stepTimer100ms, &QTimer::timeout, this, &MainWindow::simulationStep);
-    stepTimer100ms->start(2000);
+stepTimer100ms->start(700);
 
 }
 
@@ -93,14 +104,14 @@ void MainWindow::simulationStep(){
         auto nVariation = QRandomGenerator::global()->bounded(-10, 15);
         node->setNodeVoltage(parentLineA->getVoltage() + nVariation);
 
-        node->setNodeTotalPower(parentLineA->getTotalPower() * (node->powerLoad()/100));
+        node->setNodeTotalPower(parentLineA->getTotalPower() * (node->powerLoad()/100 + QRandomGenerator::global()->bounded(0.05)));
     }
 
     for(auto& node : powerDistributionB){
         auto nVariation = QRandomGenerator::global()->bounded(-10, 15);
-        node->setNodeVoltage(parentLineA->getVoltage() + nVariation);
+        node->setNodeVoltage(parentLineB->getVoltage() + nVariation);
 
-        node->setNodeTotalPower(parentLineA->getTotalPower() * (node->powerLoad()/100));
+        node->setNodeTotalPower(parentLineB->getTotalPower() * (node->powerLoad()/100 + QRandomGenerator::global()->bounded(0.05)));
     }
 }
 
