@@ -1,50 +1,32 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include"powernode.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    drawBasicMicroScada();
 
-    TransformerLayouts();
-    WireLayout();
-    circuitBreakerLayout();
 }
 
-void MainWindow::TransformerLayouts(){
+void MainWindow::drawBasicMicroScada(){
+    QString scadaDiagramSource = ":/symbols/resources/IEC_60617/IEC_60617_ScadaDiagramMain.svg";
 
-    QGridLayout* layoutTrafo1 = qobject_cast<QGridLayout*>(ui->trafoLayout1->layout());
-    QGridLayout* layoutTrafo2 = qobject_cast<QGridLayout*>(ui->trafoLayout2->layout());
+    QWidget* parentContainer = qobject_cast<QWidget*>(ui->scadaWidget);
 
-    const QString trafoResource =  ":/symbols/resources/IEC_60617/IEC_60617_Transformer.svg";
+    QSvgWidget* svg = new QSvgWidget(scadaDiagramSource, parentContainer);
+    svg->setGeometry(0, 0, parentContainer->width(), parentContainer->height());
 
-    QSvgWidget* svg1 = new QSvgWidget(trafoResource);
-    QSvgWidget* svg2= new QSvgWidget(trafoResource);
+    QTimer* stepTimer100ms = new QTimer(this);
+    connect(stepTimer100ms, &QTimer::timeout, this, &MainWindow::simulationStep);
+    stepTimer100ms->start(100);
 
-    layoutTrafo1->addWidget(svg1);
-    layoutTrafo2->addWidget(svg2);
 }
 
-void MainWindow::WireLayout(){
-    const QString wireSource = ":/symbols/resources/IEC_60617/IEC_60617_ConnectionLine.svg";
+void MainWindow::simulationStep(){
 
-    QHBoxLayout* layoutWire1 = qobject_cast<QHBoxLayout*>(ui->hWire1->layout());
-
-    QSvgWidget* wireSvg = new QSvgWidget(wireSource);
-
-    layoutWire1->addWidget(wireSvg);
-}
-
-void MainWindow::circuitBreakerLayout(){
-    const QString switchSource = ":/symbols/resources/IEC_60617/IEC_60617_Switch.svg";
-    const QString breakerSource = ":/symbols/resources/IEC_60617/IEC_60617_Breaker.svg";
-
-    QGridLayout* switchLayout1 = qobject_cast<QGridLayout*>(ui->switchLayout1->layout());
-
-    QSvgWidget* switchSvg1 = new QSvgWidget(switchSource);
-
-    switchLayout1->addWidget(switchSvg1);
 }
 
 MainWindow::~MainWindow()

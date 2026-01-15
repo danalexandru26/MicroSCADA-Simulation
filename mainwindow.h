@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include<QTimer>
 #include<QtSvgWidgets/QSvgWidget>
+
+#include"powernode.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,11 +21,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void TransformerLayouts();
-    void WireLayout();
-    void circuitBreakerLayout();
+    void drawBasicMicroScada();
+    void simulationStep();
 
 private:
     Ui::MainWindow *ui;
+    QList<PowerNode*> powerDistribution_A{};
 };
 #endif // MAINWINDOW_H

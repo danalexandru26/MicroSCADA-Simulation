@@ -15,5 +15,6 @@
         <file>resources/IEC_60617/IEC_60617_Transformer.svg</file>
         <file>resources/IEC_60617/IEC_60617_Transformer2.svg</file>
         <file>resources/IEC_60617/IEC_60617_VerLineSrc.svg</file>
+        <file>resources/IEC_60617/IEC_60617_ScadaDiagramMain.svg</file>
     </qresource>
 </RCC>

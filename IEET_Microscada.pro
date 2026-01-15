@@ -12,10 +12,14 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    powernode.cpp \
+    scalablesvgwidget.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    powernode.h \
+    scalablesvgwidget.h
 
 FORMS += \
     mainwindow.ui
